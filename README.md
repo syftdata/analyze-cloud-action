@@ -7,23 +7,16 @@ The Syft Analyze Action is a GitHub action designed to analyze a codebase and ex
 To get started, create a Github workflow file with the following contents, commit and push to the main branch:
 
 ```yaml
-name: Syft Analysis
-run-name: Monitoring analytics data schema
-on: push
+on: [pull_request]
 
 jobs:
-  Syft-Event-Analysis:
+  syft-analysis:
     permissions: write-all
     runs-on: ubuntu-latest
+    name: Syft Event Analysis.
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-        with:
-          repository: ${{ github.repository }}
-          ref: ${{ github.ref }}
-
-      - name: Setup Node.js and npm
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "18.x"
 
@@ -35,7 +28,7 @@ jobs:
         with:
           author_name: Syft Analysis Bot
           author_email: syft-analysis@syftdata.com
-          message: "Changes to Event schema is observed."
+          message: "Observed changes to the Event schema."
           add: "events.yaml"
 ```
 
