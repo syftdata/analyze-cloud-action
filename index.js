@@ -41,7 +41,7 @@ async function runAnalysis(
     newYaml = fs.readFileSync(outputFilePath, "utf8");
   }
 
-  if (oldYaml !== newYaml) {
+  if (octokit !== undefined && oldYaml !== newYaml) {
     const diff = compareSchemas(oldYaml, newYaml);
     const comment = `
     Hi there, Syft found changes in event schemas. Please review the changes below:
@@ -82,7 +82,7 @@ async function setup() {
     const outputDirectory = core.getInput("output_directory");
 
     const githubToken = core.getInput("github_token");
-    const octokit = github.getOctokit(githubToken);
+    const octokit = githubToken ? github.getOctokit(githubToken) : undefined;
 
     core.info(`Syft Analysis starting..`);
 
