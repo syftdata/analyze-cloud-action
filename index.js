@@ -22,6 +22,11 @@ async function runAnalysis(
     oldYaml = fs.readFileSync(outputFilePath, "utf8");
   }
 
+  if (octokit !== undefined) {
+    const issueNumber = await utils.getIssueNumber(octokit);
+    await utils.postComent(octokit, issueNumber, "Running Syft analysis");
+  }
+
   core.info(
     `Running tests and instrumentor in ${projectDirectory} and workspace is: ${workspaceDirectory}`
   );

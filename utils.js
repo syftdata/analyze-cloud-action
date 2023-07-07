@@ -10,19 +10,22 @@ export async function setupSyftCli() {
 export async function getIssueNumber(octokit) {
   try {
     const context = github.context;
-    const issue = context.payload.issue;
+    const issue = context.issue;
     if (issue) {
       return issue.number;
     }
-    // Otherwise return issue number from commit
-    const issueNumber = (
+
+    const prs = (
       await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
         commit_sha: context.sha,
         owner: context.repo.owner,
         repo: context.repo.repo,
       })
-    ).data[0].number;
-    return issueNumber;
+    ).data;
+    if (prs.length > 0) {
+      return prs[0].number;
+    }
+    return 0;
   } catch (e) {
     core.warning(
       `Failed to get issue number from context, error: ${e.message}`
