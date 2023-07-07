@@ -16,7 +16,7 @@ export async function getIssueNumber(octokit) {
     }
     // Otherwise return issue number from commit
     const issueNumber = (
-      await octokit.repos.listPullRequestsAssociatedWithCommit({
+      await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
         commit_sha: context.sha,
         owner: context.repo.owner,
         repo: context.repo.repo,
@@ -38,7 +38,7 @@ export async function postComent(octokit, issueNumber, comment) {
   }
   const context = github.context;
   try {
-    await octokit.issues.createComment({
+    await octokit.rest.issues.createComment({
       issue_number: issueNumber,
       owner: context.repo.owner,
       repo: context.repo.repo,
