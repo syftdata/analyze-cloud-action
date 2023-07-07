@@ -84,11 +84,6 @@ async function runAnalysis(
     oldYaml = fs.readFileSync(outputFilePath, "utf8");
   }
 
-  if (octokit !== undefined) {
-    const issueNumber = await utils.getIssueNumber(octokit);
-    await utils.postComent(octokit, issueNumber, "Running Syft analysis");
-  }
-
   core.info(
     `Running tests and instrumentor in ${projectDirectory} and workspace is: ${workspaceDirectory}`
   );
@@ -110,19 +105,27 @@ async function runAnalysis(
 
   if (octokit !== undefined && oldYaml !== newYaml) {
     const diff = compareSchemas(oldYaml, newYaml);
-    const comment = `
-Hi there, Syft found changes in event schemas. Please review the changes below:
-
+    let comment = `
+Hi there, We found changes to your event instrumentation. Please review the changes below:
+`;
+    if (diff.addedEvents.length > 0) {
+      comment += `
 ### Added Events
 | Event Name         |
 | ------------------ |
 ${diff.addedEvents.map((e) => `|${e}         |`).join("\n")}
-
+`;
+    }
+    if (diff.removedEvents.length > 0) {
+      comment += `
 ### Removed Events
 | Event Name         |
 | ------------------ |
 ${diff.removedEvents.map((e) => `|${e}         |`).join("\n")}
-
+`;
+    }
+    if (diff.changedEvents.length > 0) {
+      comment += `
 ### Changed Events
 | Event Name         | Changes  |
 | ------------------ | -------- |
@@ -135,7 +138,7 @@ ${diff.changedEvents
   )
   .join("\n")}
     `;
-
+    }
     const issueNumber = await utils.getIssueNumber(octokit);
     await utils.postComent(octokit, issueNumber, comment);
   }
