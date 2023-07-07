@@ -4,9 +4,6 @@ const { parse } = require("yaml");
 function compareSchemas(oldSchema, newSchema) {
   const oldEvents = parse(oldSchema) ?? [];
   const newEvents = parse(newSchema) ?? [];
-
-  console.log(">> events are", oldEvents, newEvents);
-
   const oldEventNames = oldEvents.map((e) => e.name);
   const newEventNames = newEvents.map((e) => e.name);
 
@@ -15,10 +12,10 @@ function compareSchemas(oldSchema, newSchema) {
 
   const addedEvents = newEventNames.filter((e) => !oldEventNames.includes(e));
   const removedEvents = oldEventNames.filter((e) => !newEventNames.includes(e));
-  const changedEvents = newEventNames.filter(
+  const changedEventNames = newEventNames.filter(
     (e) => oldEventNames.includes(e) && newEventsMap[e] !== oldEventsMap[e]
   );
-  const changedEventDetails = changedEvents.map((e) => {
+  const changedEvents = changedEventNames.map((e) => {
     // get the fields that changed.
     const oldEvent = oldEventsMap[e];
     const newEvent = newEventsMap[e];
@@ -43,7 +40,7 @@ function compareSchemas(oldSchema, newSchema) {
   return {
     addedEvents,
     removedEvents,
-    changedEventDetails,
+    changedEvents,
   };
 }
 
