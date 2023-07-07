@@ -5,6 +5,8 @@ function compareSchemas(oldSchema, newSchema) {
   const oldEvents = parse(oldSchema) ?? [];
   const newEvents = parse(newSchema) ?? [];
 
+  console.log(">> events are", oldEvents, newEvents);
+
   const oldEventNames = oldEvents.map((e) => e.name);
   const newEventNames = newEvents.map((e) => e.name);
 

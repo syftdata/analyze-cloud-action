@@ -42,7 +42,7 @@ async function runAnalysis(
   }
 
   if (octokit !== undefined && oldYaml !== newYaml) {
-    console.log(">>> yamls are ", oldYaml, newYaml);
+    console.log(`>>> yamls are "${oldYaml}", "${newYaml}"`);
     const diff = compareSchemas(oldYaml, newYaml);
     const comment = `
     Hi there, Syft found changes in event schemas. Please review the changes below:

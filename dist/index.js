@@ -11,6 +11,8 @@ function compareSchemas(oldSchema, newSchema) {
   const oldEvents = parse(oldSchema) ?? [];
   const newEvents = parse(newSchema) ?? [];
 
+  console.log(">> events are", oldEvents, newEvents);
+
   const oldEventNames = oldEvents.map((e) => e.name);
   const newEventNames = newEvents.map((e) => e.name);
 
@@ -105,7 +107,7 @@ async function runAnalysis(
   }
 
   if (octokit !== undefined && oldYaml !== newYaml) {
-    console.log(">>> yamls are ", oldYaml, newYaml);
+    console.log(`>>> yamls are "${oldYaml}", "${newYaml}"`);
     const diff = compareSchemas(oldYaml, newYaml);
     const comment = `
     Hi there, Syft found changes in event schemas. Please review the changes below:
