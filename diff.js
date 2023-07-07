@@ -1,7 +1,7 @@
-import { parse } from "yaml";
+const { parse } = require("yaml");
 
 // produces summary by comparing old and new schemas.
-export function compareSchemas(oldSchema, newSchema) {
+function compareSchemas(oldSchema, newSchema) {
   const oldEvents = parse(oldSchema) ?? [];
   const newEvents = parse(newSchema) ?? [];
 
@@ -44,3 +44,7 @@ export function compareSchemas(oldSchema, newSchema) {
     changedEventDetails,
   };
 }
+
+module.exports = {
+  compareSchemas,
+};

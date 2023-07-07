@@ -2,20 +2,14 @@
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 1080:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "compareSchemas": () => (/* binding */ compareSchemas)
-/* harmony export */ });
-/* harmony import */ var yaml__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8578);
-
+const { parse } = __nccwpck_require__(8578);
 
 // produces summary by comparing old and new schemas.
 function compareSchemas(oldSchema, newSchema) {
-  const oldEvents = (0,yaml__WEBPACK_IMPORTED_MODULE_0__/* .parse */ .Qc)(oldSchema) ?? [];
-  const newEvents = (0,yaml__WEBPACK_IMPORTED_MODULE_0__/* .parse */ .Qc)(newSchema) ?? [];
+  const oldEvents = parse(oldSchema) ?? [];
+  const newEvents = parse(newSchema) ?? [];
 
   const oldEventNames = oldEvents.map((e) => e.name);
   const newEventNames = newEvents.map((e) => e.name);
@@ -56,6 +50,10 @@ function compareSchemas(oldSchema, newSchema) {
     changedEventDetails,
   };
 }
+
+module.exports = {
+  compareSchemas,
+};
 
 
 /***/ }),
@@ -107,6 +105,7 @@ async function runAnalysis(
   }
 
   if (octokit !== undefined && oldYaml !== newYaml) {
+    console.log(">>> yamls are ", oldYaml, newYaml);
     const diff = compareSchemas(oldYaml, newYaml);
     const comment = `
     Hi there, Syft found changes in event schemas. Please review the changes below:
@@ -13776,7 +13775,6 @@ exports.prettifyError = prettifyError;
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
-var __webpack_unused_export__;
 
 
 var composer = __nccwpck_require__(2555);
@@ -13798,35 +13796,35 @@ var visit = __nccwpck_require__(7415);
 
 
 
-__webpack_unused_export__ = composer.Composer;
-__webpack_unused_export__ = Document.Document;
-__webpack_unused_export__ = Schema.Schema;
-__webpack_unused_export__ = errors.YAMLError;
-__webpack_unused_export__ = errors.YAMLParseError;
-__webpack_unused_export__ = errors.YAMLWarning;
-__webpack_unused_export__ = Alias.Alias;
-__webpack_unused_export__ = identity.isAlias;
-__webpack_unused_export__ = identity.isCollection;
-__webpack_unused_export__ = identity.isDocument;
-__webpack_unused_export__ = identity.isMap;
-__webpack_unused_export__ = identity.isNode;
-__webpack_unused_export__ = identity.isPair;
-__webpack_unused_export__ = identity.isScalar;
-__webpack_unused_export__ = identity.isSeq;
-__webpack_unused_export__ = Pair.Pair;
-__webpack_unused_export__ = Scalar.Scalar;
-__webpack_unused_export__ = YAMLMap.YAMLMap;
-__webpack_unused_export__ = YAMLSeq.YAMLSeq;
-__webpack_unused_export__ = cst;
-__webpack_unused_export__ = lexer.Lexer;
-__webpack_unused_export__ = lineCounter.LineCounter;
-__webpack_unused_export__ = parser.Parser;
-exports.Qc = publicApi.parse;
-__webpack_unused_export__ = publicApi.parseAllDocuments;
-__webpack_unused_export__ = publicApi.parseDocument;
-__webpack_unused_export__ = publicApi.stringify;
-__webpack_unused_export__ = visit.visit;
-__webpack_unused_export__ = visit.visitAsync;
+exports.Composer = composer.Composer;
+exports.Document = Document.Document;
+exports.Schema = Schema.Schema;
+exports.YAMLError = errors.YAMLError;
+exports.YAMLParseError = errors.YAMLParseError;
+exports.YAMLWarning = errors.YAMLWarning;
+exports.Alias = Alias.Alias;
+exports.isAlias = identity.isAlias;
+exports.isCollection = identity.isCollection;
+exports.isDocument = identity.isDocument;
+exports.isMap = identity.isMap;
+exports.isNode = identity.isNode;
+exports.isPair = identity.isPair;
+exports.isScalar = identity.isScalar;
+exports.isSeq = identity.isSeq;
+exports.Pair = Pair.Pair;
+exports.Scalar = Scalar.Scalar;
+exports.YAMLMap = YAMLMap.YAMLMap;
+exports.YAMLSeq = YAMLSeq.YAMLSeq;
+exports.CST = cst;
+exports.Lexer = lexer.Lexer;
+exports.LineCounter = lineCounter.LineCounter;
+exports.Parser = parser.Parser;
+exports.parse = publicApi.parse;
+exports.parseAllDocuments = publicApi.parseAllDocuments;
+exports.parseDocument = publicApi.parseDocument;
+exports.stringify = publicApi.stringify;
+exports.visit = visit.visit;
+exports.visitAsync = visit.visitAsync;
 
 
 /***/ }),
